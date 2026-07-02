@@ -119,7 +119,11 @@ fetch(
 "https://yagami-cell.com/test_game_inject/test_pln/"+this.$route.params.id
 )
 
-.then(res=>res.json())
+.then(res=>res.text())
+.then(text=>{
+    alert(text);
+    console.log(text);
+})
 
 .then(res=>{
 
