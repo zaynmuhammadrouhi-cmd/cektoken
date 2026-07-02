@@ -139,14 +139,9 @@ this.error=true;
 
 }
 
-})
-
-.catch(()=>{
-
-this.loading=false;
-
-this.error=true;
-
+.catch((e)=>{
+    alert(e.message);
+    console.log(e);
 });
 
 }
