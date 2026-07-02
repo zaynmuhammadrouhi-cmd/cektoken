@@ -1,100 +1,176 @@
 const Home = {
     template: `
-    <div style="padding:30px;text-align:center">
+    <div class="container">
 
-        <h1>Cek Nama ID PLN</h1>
+        <div class="card">
 
-        <br>
+            <h1>Cek Nama ID PLN</h1>
 
-        <input
-            v-model="id"
-            placeholder="Masukkan ID PLN"
-            style="padding:12px;width:300px;max-width:100%;">
+            <p>Masukkan ID Pelanggan PLN</p>
 
-        <br><br>
+            <input
+                v-model="id"
+                type="text"
+                placeholder="Contoh : 56905973303"
+            >
 
-        <button @click="cek"
-        style="padding:12px 20px;cursor:pointer">
+            <button @click="cek">
+                Cek Sekarang
+            </button>
 
-            Cek
-
-        </button>
+        </div>
 
     </div>
     `,
     data(){
-
         return{
-
-            id:''
-
+            id:""
         }
-
     },
     methods:{
-
         cek(){
 
-            if(this.id.trim()){
-
-                this.$router.push('/'+this.id);
-
+            if(!this.id.trim()){
+                alert("Masukkan ID PLN");
+                return;
             }
 
+            this.$router.push("/"+this.id);
+
         }
-
     }
-
-}
+};
 
 const Result = {
 
-    template:`
+template:`
 
-    <div style="padding:30px;text-align:center">
+<div class="container">
 
-        <h2>ID PLN</h2>
+<div class="card">
 
-        <h1>{{$route.params.id}}</h1>
+<div v-if="loading">
 
-        <br>
+<h2>Mencari data...</h2>
 
-        <p>Halaman ini nanti akan mengambil data dari Yagami.</p>
+</div>
 
-        <br>
+<div v-else-if="error">
 
-        <router-link to="/">← Kembali</router-link>
+<h2>Data tidak ditemukan</h2>
 
-    </div>
+<br>
 
-    `
+<router-link to="/">Kembali</router-link>
+
+</div>
+
+<div v-else>
+
+<h2>✅ Data Ditemukan</h2>
+
+<hr>
+
+<p><b>Nama Pelanggan</b></p>
+
+<h3>{{nama}}</h3>
+
+<p><b>ID PLN</b></p>
+
+<h3>{{idpln}}</h3>
+
+<p><b>Tarif / Daya</b></p>
+
+<h3>{{daya}}</h3>
+
+<br>
+
+<router-link to="/">Cek Lagi</router-link>
+
+</div>
+
+</div>
+
+</div>
+
+`,
+
+data(){
+
+return{
+
+loading:true,
+
+error:false,
+
+nama:"",
+
+idpln:"",
+
+daya:""
 
 }
 
+},
+
+mounted(){
+
+fetch(
+"https://yagami-cell.com/test_game_inject/test_pln/"+this.$route.params.id
+)
+
+.then(res=>res.json())
+
+.then(res=>{
+
+this.loading=false;
+
+if(res.status=="suskes"){
+
+this.nama=res.data.nama;
+
+this.idpln=res.data.idpln;
+
+this.daya=res.data.daya;
+
+}else{
+
+this.error=true;
+
+}
+
+})
+
+.catch(()=>{
+
+this.loading=false;
+
+this.error=true;
+
+});
+
+}
+
+};
+
 const routes=[
 
-    {
+{
+path:"/",
+component:Home
+},
 
-        path:'/',
-
-        component:Home
-
-    },
-
-    {
-
-        path:'/:id',
-
-        component:Result
-
-    }
+{
+path:"/:id",
+component:Result
+}
 
 ];
 
 const router=VueRouter.createRouter({
 
-    history:VueRouter.createWebHashHistory(),
+history:VueRouter.createWebHashHistory(),
 
-    routes
+routes
 
 });
