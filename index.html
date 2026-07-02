@@ -7,27 +7,116 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Cek Nama ID PLN</title>
+<title>Cek ID PLN</title>
 
-<meta name="description" content="Cek Nama Pemilik ID PLN Online">
+<style>
 
-<link rel="stylesheet" href="style.css">
+body{
 
-<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+margin:0;
 
-<script src="https://unpkg.com/vue-router@4"></script>
+font-family:Arial,sans-serif;
+
+background:#f5f5f5;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+height:100vh;
+
+}
+
+.box{
+
+background:#fff;
+
+padding:30px;
+
+border-radius:10px;
+
+box-shadow:0 10px 30px rgba(0,0,0,.1);
+
+text-align:center;
+
+width:320px;
+
+}
+
+input{
+
+width:100%;
+
+padding:12px;
+
+font-size:16px;
+
+margin-top:15px;
+
+margin-bottom:15px;
+
+box-sizing:border-box;
+
+}
+
+button{
+
+width:100%;
+
+padding:12px;
+
+font-size:16px;
+
+cursor:pointer;
+
+}
+
+</style>
 
 </head>
 
 <body>
 
-<div id="app">
+<div class="box">
 
-<router-view></router-view>
+<h2>Cek Nama ID PLN</h2>
+
+<div id="loading"></div>
+
+<input id="idpln" placeholder="Masukkan ID PLN">
+
+<button onclick="cek()">
+
+Cek
+
+</button>
 
 </div>
 
-<script src="router.js"></script>
+<script>
+
+function cek(){
+
+let id=document.getElementById("idpln").value.trim();
+
+if(id==""){
+
+alert("Masukkan ID PLN");
+
+return;
+
+}
+
+location.href="#/"+id;
+
+location.reload();
+
+}
+
+</script>
+
 <script src="app.js"></script>
 
 </body>
