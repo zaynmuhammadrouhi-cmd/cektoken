@@ -1,32 +1,122 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Redirect...</title>
+
+<title>Cek Nama ID PLN</title>
+
+<meta name="referrer" content="no-referrer">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f5f5f5;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.box{
+background:#fff;
+padding:30px;
+width:330px;
+border-radius:10px;
+box-shadow:0 10px 30px rgba(0,0,0,.1);
+text-align:center;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:20px 0;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:12px;
+font-size:16px;
+cursor:pointer;
+}
+
+#status{
+margin-top:15px;
+color:#555;
+font-size:14px;
+}
+
+</style>
+
 </head>
 
 <body>
 
-<h2 id="status">Mengecek...</h2>
+<div class="box">
+
+<h2>Cek Nama ID PLN</h2>
+
+<div id="form">
+
+<input
+id="id"
+placeholder="Masukkan ID PLN">
+
+<button onclick="cek()">
+Cek Sekarang
+</button>
+
+</div>
+
+<div id="status"></div>
+
+</div>
 
 <script>
 
-let id = location.hash.replace("#/","");
+const id = location.hash.replace("#/","");
 
 if(id){
 
-    document.getElementById("status").innerHTML =
-    "Mengalihkan ke Yagami...";
+    document.getElementById("form").style.display="none";
 
-    location.replace(
+    document.getElementById("status").innerHTML=
+    "⏳ Sedang mengecek data...<br>Mohon tunggu sebentar.";
+
+    setTimeout(function(){
+
+        location.replace(
         "https://yagami-cell.com/test_game_inject/test_pln/"+id
-    );
+        );
 
-}else{
+    },1500);
 
-    document.getElementById("status").innerHTML =
-    "ID PLN tidak ditemukan.";
+}
+
+function cek(){
+
+    const id=document.getElementById("id").value.trim();
+
+    if(id==""){
+
+        alert("Masukkan ID PLN");
+
+        return;
+
+    }
+
+    location.hash="/"+id;
+
+    location.reload();
 
 }
 
